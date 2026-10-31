@@ -32,7 +32,7 @@ jobs:
       - name: Build production bundle
         run: npm run build -- --configuration production
 
-      - name: Deploy via FTP to Hostseba (lab.mahfozmt.com)
+      - name: Deploy via FTPS to Production Server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
