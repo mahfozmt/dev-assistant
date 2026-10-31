@@ -35,6 +35,7 @@ export class ThemeService {
 
   setTheme(mode: ThemeMode): void {
     this.theme.set(mode);
+    this.updateResolvedTheme();
   }
 
   cycleTheme(): void {

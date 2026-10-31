@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header.component';
 import { SidebarComponent } from './sidebar.component';
 import { SearchModalComponent } from './search-modal.component';
+import { ToastContainerComponent } from '../..//shared/components/toast-container.component';
 
 @Component({
   selector: 'app-shell',
@@ -13,7 +14,8 @@ import { SearchModalComponent } from './search-modal.component';
     RouterOutlet,
     HeaderComponent,
     SidebarComponent,
-    SearchModalComponent
+    SearchModalComponent,
+    ToastContainerComponent
   ],
   template: `
     <div class="min-h-screen flex flex-col bg-surface-50 dark:bg-surface-950 text-surface-900 dark:text-surface-100">
@@ -63,6 +65,9 @@ import { SearchModalComponent } from './search-modal.component';
 
       <!-- Global Search Modal (Ctrl/Cmd + K) -->
       <app-search-modal></app-search-modal>
+
+      <!-- Global Toast Container -->
+      <app-toast-container></app-toast-container>
     </div>
   `
 })
