@@ -10,30 +10,30 @@ export type SplitLayoutMode = 'horizontal' | 'vertical';
   imports: [CommonModule, LucideAngularModule],
   template: `
     <div 
-      class="flex flex-col flex-1 border border-surface-200 dark:border-surface-800 rounded-2xl bg-white dark:bg-surface-900 shadow-sm overflow-hidden"
+      class="flex flex-col flex-1 border border-surface-200 dark:border-surface-800 rounded-xl bg-white dark:bg-surface-950 shadow-xs overflow-hidden"
       [class.fixed]="isFullscreen()"
       [class.inset-0]="isFullscreen()"
       [class.z-50]="isFullscreen()"
       [class.rounded-none]="isFullscreen()">
       
       <!-- Top Split Bar with Layout Controls -->
-      <div class="h-10 px-4 bg-surface-50 dark:bg-surface-850 border-b border-surface-200 dark:border-surface-800 flex items-center justify-between text-xs text-surface-500">
+      <div class="h-9 px-3 bg-surface-50/90 dark:bg-surface-900 border-b border-surface-200 dark:border-surface-800 flex items-center justify-between text-xs text-surface-500">
         
         <div class="flex items-center gap-2">
-          <span class="font-semibold text-surface-800 dark:text-surface-200">{{ title }}</span>
+          <span class="font-medium text-surface-700 dark:text-surface-300">{{ title }}</span>
           @if (subtitle) {
-            <span class="text-surface-400 hidden sm:inline">• {{ subtitle }}</span>
+            <span class="text-surface-400 font-mono text-[10px] hidden sm:inline">• {{ subtitle }}</span>
           }
         </div>
 
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-0.5">
           <!-- Swap Panes -->
           @if (allowSwap) {
             <button
               type="button"
               (click)="onSwap()"
               title="Swap input and output"
-              class="p-1 rounded text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200 dark:hover:bg-surface-700 transition-colors">
+              class="p-1 rounded text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200/60 dark:hover:bg-surface-800 transition-colors">
               <lucide-icon name="arrow-left-right" class="w-3.5 h-3.5"></lucide-icon>
             </button>
           }
@@ -43,7 +43,7 @@ export type SplitLayoutMode = 'horizontal' | 'vertical';
             type="button"
             (click)="toggleLayout()"
             [title]="layoutMode() === 'horizontal' ? 'Switch to stacked vertical layout' : 'Switch to side-by-side layout'"
-            class="p-1 rounded text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200 dark:hover:bg-surface-700 transition-colors">
+            class="p-1 rounded text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200/60 dark:hover:bg-surface-800 transition-colors">
             <lucide-icon [name]="layoutMode() === 'horizontal' ? 'columns-2' : 'sheet'" class="w-3.5 h-3.5"></lucide-icon>
           </button>
 
@@ -51,8 +51,8 @@ export type SplitLayoutMode = 'horizontal' | 'vertical';
           <button
             type="button"
             (click)="toggleFullscreen()"
-            [title]="isFullscreen() ? 'Exit fullscreen' : 'Enter fullscreen'"
-            class="p-1 rounded text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200 dark:hover:bg-surface-700 transition-colors">
+            [title]="isFullscreen() ? 'Exit fullscreen' : 'Fullscreen'"
+            class="p-1 rounded text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200/60 dark:hover:bg-surface-800 transition-colors">
             <lucide-icon [name]="isFullscreen() ? 'minimize-2' : 'maximize-2'" class="w-3.5 h-3.5"></lucide-icon>
           </button>
         </div>
@@ -67,9 +67,9 @@ export type SplitLayoutMode = 'horizontal' | 'vertical';
         }">
         
         <!-- Left / Top Pane (Input) -->
-        <div class="flex-1 flex flex-col min-w-0 min-h-0 bg-white dark:bg-surface-900">
-          <div class="h-8 px-3 bg-surface-50/70 dark:bg-surface-950/40 border-b border-surface-100 dark:border-surface-800/80 flex items-center justify-between text-[11px] text-surface-500 shrink-0">
-            <span class="font-medium text-surface-700 dark:text-surface-300">{{ inputLabel }}</span>
+        <div class="flex-1 flex flex-col min-w-0 min-h-0 bg-white dark:bg-surface-950">
+          <div class="h-7 px-3 bg-surface-50/50 dark:bg-surface-900/40 border-b border-surface-100 dark:border-surface-850 flex items-center justify-between text-[11px] text-surface-500 shrink-0">
+            <span class="font-mono text-[10px] text-surface-600 dark:text-surface-400 uppercase tracking-wider">{{ inputLabel }}</span>
             <div class="flex items-center gap-2">
               @if (inputMeta) {
                 <span class="font-mono text-[10px] text-surface-400">{{ inputMeta }}</span>
@@ -84,9 +84,9 @@ export type SplitLayoutMode = 'horizontal' | 'vertical';
         </div>
 
         <!-- Right / Bottom Pane (Output) -->
-        <div class="flex-1 flex flex-col min-w-0 min-h-0 bg-surface-50/30 dark:bg-surface-950/20">
-          <div class="h-8 px-3 bg-surface-50/70 dark:bg-surface-950/40 border-b border-surface-100 dark:border-surface-800/80 flex items-center justify-between text-[11px] text-surface-500 shrink-0">
-            <span class="font-medium text-surface-700 dark:text-surface-300">{{ outputLabel }}</span>
+        <div class="flex-1 flex flex-col min-w-0 min-h-0 bg-surface-50/20 dark:bg-surface-900/20">
+          <div class="h-7 px-3 bg-surface-50/50 dark:bg-surface-900/40 border-b border-surface-100 dark:border-surface-850 flex items-center justify-between text-[11px] text-surface-500 shrink-0">
+            <span class="font-mono text-[10px] text-surface-600 dark:text-surface-400 uppercase tracking-wider">{{ outputLabel }}</span>
             <div class="flex items-center gap-2">
               @if (outputMeta) {
                 <span class="font-mono text-[10px] text-surface-400">{{ outputMeta }}</span>

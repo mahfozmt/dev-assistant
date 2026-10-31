@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header.component';
 import { SidebarComponent } from './sidebar.component';
 import { SearchModalComponent } from './search-modal.component';
-import { ToastContainerComponent } from '../..//shared/components/toast-container.component';
+import { ToastContainerComponent } from '../../shared/components/toast-container.component';
 
 @Component({
   selector: 'app-shell',

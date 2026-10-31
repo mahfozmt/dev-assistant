@@ -8,34 +8,34 @@ import { ToastService } from '../../core/services/toast.service';
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   template: `
-    <div class="flex flex-wrap items-center justify-between gap-2 px-3 py-2 bg-surface-100/70 dark:bg-surface-850 border border-surface-200 dark:border-surface-800 rounded-xl text-xs">
+    <div class="flex flex-wrap items-center justify-between gap-2 px-3 py-1.5 bg-surface-50 dark:bg-surface-900 border border-surface-200 dark:border-surface-800 rounded-lg text-xs font-sans">
       
-      <!-- Left side: Primary execution / tool-specific options -->
-      <div class="flex items-center gap-2 flex-wrap min-w-0">
+      <!-- Left side: Primary action & custom options -->
+      <div class="flex items-center gap-1.5 flex-wrap min-w-0">
         @if (primaryActionLabel) {
           <button
             type="button"
             (click)="primaryAction.emit()"
             [disabled]="isBusy"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-medium shadow-xs disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-surface-900 dark:bg-surface-100 hover:bg-surface-800 dark:hover:bg-white text-white dark:text-surface-950 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xs">
             <lucide-icon [name]="primaryActionIcon" class="w-3.5 h-3.5"></lucide-icon>
             <span>{{ primaryActionLabel }}</span>
           </button>
         }
 
-        <!-- Custom Slot for options (e.g. indent spaces, dialect) -->
+        <!-- Custom Slot -->
         <ng-content></ng-content>
       </div>
 
-      <!-- Right side: General utilities (Copy, Sample, Clear, Download, Fullscreen) -->
+      <!-- Right side: Copy, Sample, Clear, Download, Fullscreen -->
       <div class="flex items-center gap-1 ml-auto">
         <!-- Load Sample -->
         @if (hasSample) {
           <button
             type="button"
             (click)="loadSample.emit()"
-            title="Load sample test input"
-            class="px-2.5 py-1.5 rounded-lg text-surface-600 dark:text-surface-300 hover:bg-surface-200 dark:hover:bg-surface-700 hover:text-surface-900 dark:hover:text-surface-100 transition-colors flex items-center gap-1.5">
+            title="Load sample input payload"
+            class="px-2 py-1 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors flex items-center gap-1.5 text-xs">
             <lucide-icon name="clipboard-paste" class="w-3.5 h-3.5"></lucide-icon>
             <span class="hidden sm:inline">Sample</span>
           </button>
@@ -46,8 +46,8 @@ import { ToastService } from '../../core/services/toast.service';
           <button
             type="button"
             (click)="clear.emit()"
-            title="Clear all fields"
-            class="px-2.5 py-1.5 rounded-lg text-surface-600 dark:text-surface-300 hover:bg-surface-200 dark:hover:bg-surface-700 hover:text-rose-600 dark:hover:text-rose-400 transition-colors flex items-center gap-1.5">
+            title="Clear editor contents"
+            class="px-2 py-1 rounded-md text-surface-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors flex items-center gap-1.5 text-xs">
             <lucide-icon name="trash-2" class="w-3.5 h-3.5"></lucide-icon>
             <span class="hidden sm:inline">Clear</span>
           </button>
@@ -58,9 +58,11 @@ import { ToastService } from '../../core/services/toast.service';
           <button
             type="button"
             (click)="onCopy()"
-            [title]="copied() ? 'Copied to clipboard!' : 'Copy to clipboard'"
-            class="px-2.5 py-1.5 rounded-lg font-medium transition-colors flex items-center gap-1.5"
-            [ngClass]="copied() ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'text-surface-600 dark:text-surface-300 hover:bg-surface-200 dark:hover:bg-surface-700'">
+            [title]="copied() ? 'Copied to clipboard' : 'Copy output'"
+            class="px-2 py-1 rounded-md font-medium transition-colors flex items-center gap-1.5 text-xs"
+            [ngClass]="copied() 
+              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
+              : 'text-surface-600 dark:text-surface-300 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800'">
             <lucide-icon [name]="copied() ? 'check' : 'copy'" class="w-3.5 h-3.5"></lucide-icon>
             <span>{{ copied() ? 'Copied' : 'Copy' }}</span>
           </button>
@@ -71,8 +73,8 @@ import { ToastService } from '../../core/services/toast.service';
           <button
             type="button"
             (click)="onDownload()"
-            title="Download output file"
-            class="px-2.5 py-1.5 rounded-lg text-surface-600 dark:text-surface-300 hover:bg-surface-200 dark:hover:bg-surface-700 hover:text-surface-900 dark:hover:text-surface-100 transition-colors flex items-center gap-1.5">
+            title="Download payload as file"
+            class="px-2 py-1 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors flex items-center gap-1.5 text-xs">
             <lucide-icon name="download" class="w-3.5 h-3.5"></lucide-icon>
             <span class="hidden sm:inline">Download</span>
           </button>
@@ -84,7 +86,7 @@ import { ToastService } from '../../core/services/toast.service';
             type="button"
             (click)="toggleFullscreen.emit()"
             [title]="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
-            class="p-1.5 rounded-lg text-surface-600 dark:text-surface-300 hover:bg-surface-200 dark:hover:bg-surface-700 transition-colors">
+            class="p-1 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors">
             <lucide-icon [name]="isFullscreen ? 'minimize-2' : 'maximize-2'" class="w-3.5 h-3.5"></lucide-icon>
           </button>
         }
@@ -127,7 +129,7 @@ export class ActionToolbarComponent {
         this.toast.success('Copied to clipboard');
         setTimeout(() => this.copied.set(false), 2000);
       } catch {
-        this.toast.error('Failed to copy text');
+        this.toast.error('Failed to copy to clipboard');
       }
     }
     this.copy.emit();

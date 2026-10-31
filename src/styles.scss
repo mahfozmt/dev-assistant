@@ -12,16 +12,33 @@
   }
 
   body {
-    @apply bg-surface-50 text-surface-900 dark:bg-surface-950 dark:text-surface-100 font-sans antialiased selection:bg-brand-500/20 selection:text-brand-700 dark:selection:text-brand-300;
+    @apply bg-surface-50 text-surface-900 dark:bg-surface-950 dark:text-surface-100 font-sans antialiased selection:bg-brand-500/20 selection:text-brand-400;
     min-height: 100vh;
     overflow-x: hidden;
   }
 }
 
-/* Custom minimal scrollbar */
+/* Developer workbench subtle dotted grid */
+.workbench-grid {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .workbench-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Ergonomic keyboard keys */
+kbd {
+  @apply inline-flex items-center justify-center font-mono text-[10px] font-semibold tracking-wider px-1.5 py-0.5 rounded border shadow-[0_1px_0_1px_rgba(0,0,0,0.04)];
+  @apply bg-surface-100 dark:bg-surface-850 text-surface-600 dark:text-surface-400 border-surface-200 dark:border-surface-700/80;
+}
+
+/* Clean minimal scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -29,7 +46,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-surface-300 dark:bg-surface-700 rounded-full;
+  @apply bg-surface-300/80 dark:bg-surface-700/80 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {

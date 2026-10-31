@@ -22,41 +22,42 @@ import { ToastService } from '../../core/services/toast.service';
   ],
   template: `
     @if (tool) {
-      <div class="flex-1 flex flex-col space-y-4 animate-in fade-in duration-200">
+      <div class="flex-1 flex flex-col space-y-3.5 animate-in fade-in duration-100 max-w-6xl mx-auto w-full">
         
         <!-- Header & Breadcrumbs / Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-surface-200 dark:border-surface-800 gap-3">
-          <div class="space-y-1">
-            <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center shrink-0">
-                <lucide-icon [name]="tool.icon" class="w-4 h-4"></lucide-icon>
-              </div>
-              <h1 class="text-xl sm:text-2xl font-bold text-surface-900 dark:text-surface-100">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono text-surface-400">{{ tool.categoryName }}</span>
+              <span class="text-surface-300 dark:text-surface-700">/</span>
+              <h1 class="text-lg sm:text-xl font-semibold text-surface-900 dark:text-surface-100 tracking-tight">
                 {{ tool.name }}
               </h1>
-              <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-surface-100 dark:bg-surface-800 text-surface-500">
-                {{ tool.categoryName }}
-              </span>
             </div>
-            <p class="text-xs sm:text-sm text-surface-500 dark:text-surface-400">
+            <p class="text-xs text-surface-500 dark:text-surface-400 mt-0.5">
               {{ tool.description }}
             </p>
           </div>
 
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Client Worker
+            </span>
+
             <button
               type="button"
-              class="px-3 py-1.5 rounded-lg border border-surface-200 dark:border-surface-700 hover:bg-surface-100 dark:hover:bg-surface-800 text-xs font-medium text-surface-700 dark:text-surface-300 flex items-center gap-1.5 transition-colors"
+              class="px-2.5 py-1 rounded-md border border-surface-200 dark:border-surface-800 hover:bg-surface-100 dark:hover:bg-surface-850 text-xs text-surface-600 dark:text-surface-300 flex items-center gap-1.5 transition-colors"
               (click)="registry.toggleFavorite(tool.id)">
               <lucide-icon name="star" class="w-3.5 h-3.5" [class.fill-amber-500]="registry.isFavorite(tool.id)" [class.text-amber-500]="registry.isFavorite(tool.id)"></lucide-icon>
-              <span>{{ registry.isFavorite(tool.id) ? 'Favorited' : 'Favorite' }}</span>
+              <span>{{ registry.isFavorite(tool.id) ? 'Pinned' : 'Pin' }}</span>
             </button>
           </div>
         </div>
 
         <!-- Shared Action Toolbar -->
         <app-action-toolbar
-          [primaryActionLabel]="'Process / Run'"
+          [primaryActionLabel]="'Transform'"
           primaryActionIcon="sparkles"
           [hasSample]="true"
           [hasClear]="true"
@@ -64,23 +65,22 @@ import { ToastService } from '../../core/services/toast.service';
           [hasDownload]="true"
           [copyContent]="outputContent()"
           [downloadContent]="outputContent()"
-          [downloadFilename]="tool.id + '-output.txt'"
+          [downloadFilename]="tool.id + '-result.txt'"
           (primaryAction)="onProcess()"
           (loadSample)="onLoadSample()"
           (clear)="onClear()">
-          <!-- Tool specific badges or options slot -->
-          <div class="flex items-center gap-1.5 text-xs text-surface-500 pl-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span class="font-mono text-[11px]">Client Worker Ready</span>
+          
+          <div class="flex items-center gap-2 text-xs text-surface-500 pl-2 font-mono text-[11px]">
+            <span>Mode: Standard</span>
           </div>
         </app-action-toolbar>
 
         <!-- Split Pane Layout -->
         <app-split-pane
           [title]="tool.name"
-          [subtitle]="'Interactive Shell'"
-          inputLabel="Raw Input Payload"
-          outputLabel="Transformed Result"
+          [subtitle]="'Editor'"
+          inputLabel="Source Input"
+          outputLabel="Formatted Output"
           [inputMeta]="inputContent().length + ' chars'"
           [outputMeta]="outputContent().length + ' chars'"
           (swap)="onSwap()">
@@ -88,43 +88,44 @@ import { ToastService } from '../../core/services/toast.service';
           <!-- Input Pane -->
           <div input-content class="h-full flex flex-col">
             <textarea
-              class="w-full h-full min-h-[300px] bg-transparent font-mono text-xs sm:text-sm p-2 text-surface-900 dark:text-surface-100 placeholder-surface-400 focus:outline-none resize-none"
-              placeholder="Paste or enter input here..."
+              class="w-full h-full min-h-[340px] bg-transparent font-mono text-xs p-2 text-surface-900 dark:text-surface-100 placeholder-surface-400 focus:outline-none resize-none leading-relaxed"
+              placeholder="Paste or type content here..."
               [ngModel]="inputContent()"
-              (ngModelChange)="inputContent.set($event)"></textarea>
+              (ngModelChange)="inputContent.set($event)"
+              spellcheck="false"></textarea>
           </div>
 
           <!-- Output Pane -->
           <div output-content class="h-full flex flex-col">
             @if (outputContent()) {
-              <pre class="w-full h-full min-h-[300px] overflow-auto font-mono text-xs sm:text-sm p-2 text-surface-900 dark:text-surface-100 select-all">{{ outputContent() }}</pre>
+              <pre class="w-full h-full min-h-[340px] overflow-auto font-mono text-xs p-2 text-surface-900 dark:text-surface-100 select-all leading-relaxed">{{ outputContent() }}</pre>
             } @else {
-              <div class="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-6 text-surface-400">
-                <lucide-icon [name]="tool.icon" class="w-8 h-8 opacity-40 mb-2"></lucide-icon>
-                <p class="text-xs">Enter input and click <span class="font-semibold text-brand-500">Process</span> or <span class="font-semibold text-brand-500">Sample</span> to view results.</p>
+              <div class="h-full min-h-[340px] flex flex-col items-center justify-center text-center p-6 text-surface-400">
+                <lucide-icon [name]="tool.icon" class="w-6 h-6 opacity-30 mb-2"></lucide-icon>
+                <p class="text-xs">Output will appear here after clicking <span class="text-surface-900 dark:text-surface-200 font-medium">Transform</span> or <span class="text-surface-900 dark:text-surface-200 font-medium">Sample</span>.</p>
               </div>
             }
           </div>
         </app-split-pane>
 
         <!-- Tags & Info footer -->
-        <div class="flex items-center justify-between text-xs text-surface-400 pt-1">
+        <div class="flex items-center justify-between text-xs text-surface-400 pt-1 font-mono text-[11px]">
           <div class="flex items-center gap-1.5 flex-wrap">
             @for (tag of tool.tags; track tag) {
-              <span class="px-2 py-0.5 rounded bg-surface-100 dark:bg-surface-800 text-[11px]">
+              <span class="px-1.5 py-0.5 rounded bg-surface-100 dark:bg-surface-850 text-surface-500 text-[10px]">
                 #{{ tag }}
               </span>
             }
           </div>
-          <span class="font-mono text-[11px] text-surface-500">DevAssistant • Client-Side</span>
+          <span>DevAssistant • lab.mahfozmt.com</span>
         </div>
 
       </div>
     } @else {
-      <div class="py-16 text-center space-y-3">
-        <h2 class="text-xl font-bold">Tool Not Found</h2>
-        <p class="text-sm text-surface-500">The requested tool route could not be found.</p>
-        <a routerLink="/" class="inline-flex px-4 py-2 rounded-lg bg-brand-500 text-white text-xs font-semibold">
+      <div class="py-16 text-center space-y-3 font-mono">
+        <h2 class="text-base font-bold">Tool Not Found</h2>
+        <p class="text-xs text-surface-500">The requested tool path is not registered.</p>
+        <a routerLink="/" class="inline-flex px-3 py-1.5 rounded-md bg-surface-900 dark:bg-surface-100 text-white dark:text-surface-900 text-xs font-semibold">
           Return to Dashboard
         </a>
       </div>
@@ -136,7 +137,7 @@ export class ToolPlaceholderComponent {
   readonly registry = inject(ToolRegistryService);
   private readonly toast = inject(ToastService);
 
-  readonly inputContent = signal<string>('{\n  "name": "DevAssistant",\n  "status": "ready",\n  "phase": 1,\n  "offline": true\n}');
+  readonly inputContent = signal<string>('{\n  "service": "DevAssistant",\n  "status": "active",\n  "offline": true\n}');
   readonly outputContent = signal<string>('');
 
   get tool(): ToolDefinition | undefined {
@@ -149,27 +150,26 @@ export class ToolPlaceholderComponent {
       this.toast.warning('Input payload is empty');
       return;
     }
-    // Echo formatted placeholder demonstration
     this.outputContent.set(this.inputContent());
-    this.toast.success('Payload processed');
+    this.toast.success('Processed payload locally');
   }
 
   onLoadSample(): void {
-    this.inputContent.set('{\n  "service": "DevAssistant",\n  "environment": "lab.mahfozmt.com",\n  "version": "1.0.0",\n  "capabilities": ["formatters", "parsers", "diff", "converters", "crypto", "dotnet"]\n}');
+    this.inputContent.set('{\n  "name": "DevAssistant",\n  "environment": "lab.mahfozmt.com",\n  "features": ["json-formatter", "sql-formatter", "bcrypt", "jwt-debugger"]\n}');
     this.outputContent.set('');
-    this.toast.info('Sample data loaded');
+    this.toast.info('Sample payload loaded');
   }
 
   onClear(): void {
     this.inputContent.set('');
     this.outputContent.set('');
-    this.toast.info('Workspace cleared');
+    this.toast.info('Cleared');
   }
 
   onSwap(): void {
     const temp = this.inputContent();
     this.inputContent.set(this.outputContent());
     this.outputContent.set(temp);
-    this.toast.info('Input and output panes swapped');
+    this.toast.info('Swapped panes');
   }
 }
