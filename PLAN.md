@@ -86,14 +86,14 @@ DevAssistant is created to serve as Mahfozur Rahman's real-world developer labor
 ## 4. Implementation Phases & Roadmap
 
 ### Phase 1: Project Scaffolding & Core Architecture
-- [ ] Initialize Angular workspace (`standalone: true`, `routing: true`, `styles: tailwindcss / scss`).
-- [ ] Install and configure Tailwind CSS and Lucide icons.
-- [ ] Build responsive shell layout:
+- [x] Initialize Angular workspace (`standalone: true`, `routing: true`, `styles: tailwindcss / scss`).
+- [x] Install and configure Tailwind CSS and Lucide icons.
+- [x] Build responsive shell layout:
   - Collapsible sidebar with category groupings.
   - Top bar with global quick search (Ctrl/Cmd + K).
   - Dark / Light / System theme toggle.
   - Active tool breadcrumbs & favorites star.
-- [ ] Set up `shared` UI primitives:
+- [x] Set up `shared` UI primitives:
   - Action toolbar (Copy, Clear, Paste sample, Download, Fullscreen).
   - Split pane container (Input / Output layout with adjustable divider).
   - Status toast notification system.
