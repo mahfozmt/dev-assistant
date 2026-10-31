@@ -14,14 +14,34 @@ export const routes: Routes = [
         title: 'DevAssistant — Developer Productivity Workstation'
       },
       // Module 1: Formatters
-      { path: 'tools/formatters/json', component: ToolPlaceholderComponent, title: 'JSON Formatter & Validator — DevAssistant' },
-      { path: 'tools/formatters/sql', component: ToolPlaceholderComponent, title: 'SQL Formatter — DevAssistant' },
-      { path: 'tools/formatters/xml-html', component: ToolPlaceholderComponent, title: 'XML / HTML Formatter — DevAssistant' },
+      {
+        path: 'tools/formatters/json',
+        loadComponent: () => import('./tools/formatters/json/json-formatter.component').then(m => m.JsonFormatterComponent),
+        title: 'JSON Formatter & Validator — DevAssistant'
+      },
+      {
+        path: 'tools/formatters/sql',
+        loadComponent: () => import('./tools/formatters/sql/sql-formatter.component').then(m => m.SqlFormatterComponent),
+        title: 'SQL Formatter — DevAssistant'
+      },
+      {
+        path: 'tools/formatters/xml-html',
+        loadComponent: () => import('./tools/formatters/xml-html/xml-formatter.component').then(m => m.XmlFormatterComponent),
+        title: 'XML / HTML Formatter — DevAssistant'
+      },
       { path: 'tools/formatters/css', component: ToolPlaceholderComponent, title: 'CSS / SCSS Formatter — DevAssistant' },
 
       // Module 2: Parsers & Evaluators
-      { path: 'tools/parsers/json-tree', component: ToolPlaceholderComponent, title: 'JSON Parser & Tree — DevAssistant' },
-      { path: 'tools/parsers/jsonpath', component: ToolPlaceholderComponent, title: 'JSONPath Evaluator — DevAssistant' },
+      {
+        path: 'tools/parsers/json-tree',
+        loadComponent: () => import('./tools/parsers/json-tree/json-tree.component').then(m => m.JsonTreeComponent),
+        title: 'JSON Parser & Tree — DevAssistant'
+      },
+      {
+        path: 'tools/parsers/jsonpath',
+        loadComponent: () => import('./tools/parsers/jsonpath/jsonpath-evaluator.component').then(m => m.JsonPathEvaluatorComponent),
+        title: 'JSONPath Evaluator — DevAssistant'
+      },
       { path: 'tools/parsers/schema-validator', component: ToolPlaceholderComponent, title: 'JSON Schema Validator — DevAssistant' },
 
       // Module 3: Diff Viewer

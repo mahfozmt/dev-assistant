@@ -99,10 +99,11 @@ DevAssistant is created to serve as Mahfozur Rahman's real-world developer labor
   - Status toast notification system.
 
 ### Phase 2: Formatter & Parser Tools
-- [ ] Build **JSON Formatter & Validator** with Monaco editor integration.
-- [ ] Build **SQL Formatter** supporting standard SQL and T-SQL dialects.
-- [ ] Build **XML / HTML Formatter**.
-- [ ] Build **JSONPath Evaluator** with real-time JSON filtering.
+- [x] Build **JSON Formatter & Validator** with beautify (2sp/4sp/tab), minify, sort keys, escape, and validation error locator.
+- [x] Build **SQL Formatter** supporting standard SQL, T-SQL, PostgreSQL, MySQL, and SQLite dialects with keyword casing controls.
+- [x] Build **XML / HTML Formatter** with indentation formatting, minification, and well-formedness diagnostics.
+- [x] Build **JSONPath Evaluator** with real-time JSON filtering, match counters, and common query presets.
+- [x] Build **JSON Parser & Tree** with recursive collapsible nodes, type badges, expand/collapse all, and one-click JSONPath copying.
 
 ### Phase 3: Diff Viewer & Data Converters
 - [ ] Implement Monaco **Diff Editor** with side-by-side and inline toggles.
