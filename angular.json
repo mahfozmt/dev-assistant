@@ -34,7 +34,14 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "ajv",
+              "ajv/dist/2020",
+              "ajv-formats",
+              "diff",
+              "nearley"
+            ]
           },
           "configurations": {
             "production": {
