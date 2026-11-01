@@ -29,7 +29,11 @@ export const routes: Routes = [
         loadComponent: () => import('./tools/formatters/xml-html/xml-formatter.component').then(m => m.XmlFormatterComponent),
         title: 'XML / HTML Formatter — DevAssistant'
       },
-      { path: 'tools/formatters/css', component: ToolPlaceholderComponent, title: 'CSS / SCSS Formatter — DevAssistant' },
+      {
+        path: 'tools/formatters/css',
+        loadComponent: () => import('./tools/formatters/css/css-formatter.component').then(m => m.CssFormatterComponent),
+        title: 'CSS / SCSS Formatter — DevAssistant'
+      },
 
       // Module 2: Parsers & Evaluators
       {
@@ -42,11 +46,23 @@ export const routes: Routes = [
         loadComponent: () => import('./tools/parsers/jsonpath/jsonpath-evaluator.component').then(m => m.JsonPathEvaluatorComponent),
         title: 'JSONPath Evaluator — DevAssistant'
       },
-      { path: 'tools/parsers/schema-validator', component: ToolPlaceholderComponent, title: 'JSON Schema Validator — DevAssistant' },
+      {
+        path: 'tools/parsers/schema-validator',
+        loadComponent: () => import('./tools/parsers/schema-validator/schema-validator.component').then(m => m.SchemaValidatorComponent),
+        title: 'JSON Schema Validator — DevAssistant'
+      },
 
       // Module 3: Diff Viewer
-      { path: 'tools/diff/side-by-side', component: ToolPlaceholderComponent, title: 'Side-by-Side Diff — DevAssistant' },
-      { path: 'tools/diff/inline', component: ToolPlaceholderComponent, title: 'Inline Diff — DevAssistant' },
+      {
+        path: 'tools/diff/side-by-side',
+        loadComponent: () => import('./tools/diff/side-by-side/side-by-side-diff.component').then(m => m.SideBySideDiffComponent),
+        title: 'Side-by-Side Diff — DevAssistant'
+      },
+      {
+        path: 'tools/diff/inline',
+        loadComponent: () => import('./tools/diff/inline/inline-diff.component').then(m => m.InlineDiffComponent),
+        title: 'Inline Diff — DevAssistant'
+      },
 
       // Module 4: Converters
       { path: 'tools/converters/json-csv', component: ToolPlaceholderComponent, title: 'JSON ↔ CSV / TSV — DevAssistant' },

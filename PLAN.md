@@ -31,10 +31,10 @@ DevAssistant is an ultra-fast, client-side developer workstation built with **An
 | 3 | **XML / HTML Formatter** | `/tools/formatters/xml-html` | Formatters | ✅ Completed & Live |
 | 4 | **JSON Parser & Tree Viewer** | `/tools/parsers/json-tree` | Parsers | ✅ Completed & Live |
 | 5 | **JSONPath Evaluator** | `/tools/parsers/jsonpath` | Parsers | ✅ Completed & Live |
-| 6 | **Side-by-Side Diff Viewer** | `/tools/diff/side-by-side` | Diff Viewer | ⏳ **Pending (Phase 3)** |
-| 7 | **Inline Diff Viewer** | `/tools/diff/inline` | Diff Viewer | ⏳ **Pending (Phase 3)** |
-| 8 | **CSS / SCSS Formatter** | `/tools/formatters/css` | Formatters | ⏳ **Pending (Phase 3)** |
-| 9 | **JSON Schema Validator** | `/tools/parsers/schema-validator` | Parsers | ⏳ **Pending (Phase 3)** |
+| 6 | **Side-by-Side Diff Viewer** | `/tools/diff/side-by-side` | Diff Viewer | ✅ Completed |
+| 7 | **Inline Diff Viewer** | `/tools/diff/inline` | Diff Viewer | ✅ Completed |
+| 8 | **CSS / SCSS Formatter** | `/tools/formatters/css` | Formatters | ✅ Completed |
+| 9 | **JSON Schema Validator** | `/tools/parsers/schema-validator` | Parsers | ✅ Completed |
 | 10 | **JSON ↔ CSV / TSV Converter** | `/tools/converters/json-csv` | Converters | ⏳ **Pending (Phase 4)** |
 | 11 | **JSON ↔ YAML Converter** | `/tools/converters/json-yaml` | Converters | ⏳ **Pending (Phase 4)** |
 | 12 | **Base64 Encoder / Decoder** | `/tools/converters/base64` | Converters | ⏳ **Pending (Phase 4)** |
