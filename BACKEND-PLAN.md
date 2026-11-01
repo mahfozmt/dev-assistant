@@ -32,7 +32,7 @@ api/
 └── DevAssistant.Api.Tests/    # unit + integration tests
 ```
 
-## Phase 0: Prove the hosting (1 to 2 days)
+## Phase 0: Prove the hosting
 
 1. Check which ASP.NET Core Hosting Bundle is installed on win12 (Plesk or a Hostseba ticket). If .NET 10 is missing, publish self-contained (needs only the ASP.NET Core Module).
 2. Create `api.mahfozmt.com`: A record at ExonHost (TTL 7200), Plesk subdomain, Let's Encrypt certificate.
@@ -41,7 +41,7 @@ api/
 
 **Done when** `https://api.mahfozmt.com/health` returns 200 after a push to `main`.
 
-## Phase 1: Foundation and stateless .NET tools (1 to 2 weeks)
+## Phase 1: Foundation and stateless .NET tools
 
 Cross-cutting:
 - Built-in rate limiter (about 30 requests per minute per IP).
@@ -63,19 +63,19 @@ Frontend:
 - `apiBaseUrl` in environment files and a shared `ApiService`.
 - "Runs on server" badge on server tools, and a friendly message when the API is unavailable.
 
-## Phase 2: Roslyn workbench (1 to 2 weeks)
+## Phase 2: Roslyn workbench
 
 - Compile diagnostics, syntax tree, IL and lowered C# (Roslyn plus ICSharpCode.Decompiler).
 - Switch C# to TypeScript and C# to JSON Schema to Roslyn syntax parsing.
 - Limits: 20 KB of code, compile timeout via `CancellationToken`, a semaphore allowing one or two compiles at a time.
 - Never call `Assembly.Load` or execute user code. Add a test that guards this.
 
-## Phase 3: Share links (about 1 week)
+## Phase 3: Share links
 
 - `Snippets` table (id, tool, content, created, expires) with EF Core migrations.
 - Anonymous links that expire after 7 or 30 days, plus a cleanup job.
 
-## Phase 4: Accounts and sync (2 to 3 weeks)
+## Phase 4: Accounts and sync
 
 - GitHub OAuth with cookie authentication.
 - Saved regex patterns, snippets and preferences.
