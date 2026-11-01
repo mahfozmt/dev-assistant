@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
+import { ApiService } from '../../../core/services/api.service';
 
 interface MatchGroup {
   index: number;
@@ -44,6 +45,15 @@ interface RegexPreset {
         </div>
 
         <div class="flex items-center gap-2 flex-wrap">
+          <button
+            type="button"
+            (click)="runDotnetServerRegex()"
+            [disabled]="!pattern() || isServerRunning()"
+            title="Run pattern using System.Text.RegularExpressions on api.mahfozmt.com (supports balancing groups & RightToLeft)"
+            class="px-2.5 py-1.5 text-xs font-medium text-amber-800 dark:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 disabled:opacity-50 rounded-lg transition-colors flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            <span>{{ isServerRunning() ? 'Running .NET Regex...' : '.NET 10 Regex (Runs on server)' }}</span>
+          </button>
           <div class="relative">
             <select
               (change)="applyPreset($event)"
@@ -320,9 +330,12 @@ interface RegexPreset {
 })
 export class RegexTesterComponent {
   private readonly toast = inject(ToastService);
+  private readonly api = inject(ApiService);
 
   readonly pattern = signal<string>('([a-zA-Z0-9_.+-]+)@([a-zA-Z0-9-]+)\\.([a-zA-Z0-9-.]+)');
   readonly activeFlags = signal<string>('g');
+  readonly serverMatchesOverride = signal<RegexMatch[] | null>(null);
+  readonly isServerRunning = signal<boolean>(false);
   readonly testText = signal<string>(
     'Contact our team at support@devassistant.io or sales-desk@company.org.\nYou can also reach out to john.doe@sample.co.uk for inquiries.'
   );
@@ -395,6 +408,8 @@ export class RegexTesterComponent {
   });
 
   readonly matches = computed<RegexMatch[]>(() => {
+    const serverOverride = this.serverMatchesOverride();
+    if (serverOverride !== null) return serverOverride;
     const pat = this.pattern();
     const text = this.testText();
     const flags = this.activeFlags();
@@ -508,7 +523,52 @@ export class RegexTesterComponent {
   });
 
   onPatternChange(val: string): void {
+    this.serverMatchesOverride.set(null);
     this.pattern.set(val);
+  }
+
+  async runDotnetServerRegex(): Promise<void> {
+    const pat = this.pattern();
+    if (!pat) return;
+    this.isServerRunning.set(true);
+    try {
+      const options: string[] = [];
+      const flags = this.activeFlags();
+      if (flags.includes('i')) options.push('IgnoreCase');
+      if (flags.includes('m')) options.push('Multiline');
+      if (flags.includes('s')) options.push('Singleline');
+
+      const res = await this.api.testDotnetRegex({
+        pattern: pat,
+        input: this.testText(),
+        replacement: this.replacementPattern(),
+        options
+      });
+
+      if (!res.isValid) {
+        this.toast.error(res.error || '.NET Regex error');
+        return;
+      }
+
+      const mapped: RegexMatch[] = res.matches.map((m, idx) => ({
+        index: m.index,
+        matchIndex: idx,
+        length: m.length,
+        value: m.value,
+        groups: m.groups.slice(1).map((g, gIdx) => ({
+          index: gIdx + 1,
+          name: g.name !== String(gIdx + 1) ? g.name : undefined,
+          value: g.value
+        }))
+      }));
+
+      this.serverMatchesOverride.set(mapped);
+      this.toast.success(`.NET 10 Regex matched ${res.matchCount} result(s) in ${res.elapsedMs} ms`);
+    } catch {
+      this.toast.warning('Server API unavailable — using local JavaScript RegExp engine.');
+    } finally {
+      this.isServerRunning.set(false);
+    }
   }
 
   onTestTextChange(val: string): void {

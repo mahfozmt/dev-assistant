@@ -1,4 +1,4 @@
-name: Deploy DevAssistant to lab.mahfozmt.com
+name: Deploy DevAssistant (Frontend & .NET 10 API)
 
 on:
   push:
@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    name: Build & Deploy
+    name: Build & Deploy Frontend (lab.mahfozmt.com)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -42,3 +42,63 @@ jobs:
           server-dir: /
           protocol: ftps
           dangerous-clean-slate: false
+
+  deploy-api:
+    name: Test, Publish & Deploy .NET 10 API (api.mahfozmt.com)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Run xUnit Integration & Security Guard Tests
+        run: dotnet test api/DevAssistant.slnx --configuration Release --verbosity normal
+
+      - name: Publish Self-Contained win-x64 Bundle
+        run: dotnet publish api/DevAssistant.Api/DevAssistant.Api.csproj -c Release -r win-x64 --self-contained true -o publish-api
+
+      - name: Upload app_offline.htm to stop IIS App Pool cleanly
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          API_FTP_USER: ${{ secrets.API_FTP_USERNAME }}
+          API_FTP_PASS: ${{ secrets.API_FTP_PASSWORD }}
+        run: |
+          echo "<!DOCTYPE html><html><body>Updating DevAssistant API...</body></html>" > app_offline.htm
+          curl --silent --show-error --fail --ssl-reqd --insecure \
+            --user "${API_FTP_USER}:${API_FTP_PASS}" \
+            -T app_offline.htm "ftp://${FTP_SERVER}/app_offline.htm"
+          sleep 3
+
+      - name: Deploy API Build via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.API_FTP_USERNAME }}
+          password: ${{ secrets.API_FTP_PASSWORD }}
+          local-dir: publish-api/
+          server-dir: /
+          protocol: ftps
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/App_Data/**
+            **/logs/**
+            app_offline.htm
+
+      - name: Remove app_offline.htm and Verify /health
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          API_FTP_USER: ${{ secrets.API_FTP_USERNAME }}
+          API_FTP_PASS: ${{ secrets.API_FTP_PASSWORD }}
+        run: |
+          curl --silent --show-error --ssl-reqd --insecure \
+            --user "${API_FTP_USER}:${API_FTP_PASS}" \
+            -Q "DELE /app_offline.htm" "ftp://${FTP_SERVER}/" || true
+          sleep 5
+          curl --fail --silent --show-error --retry 5 --retry-delay 3 https://api.mahfozmt.com/health

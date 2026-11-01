@@ -77,6 +77,7 @@ export const routes: Routes = [
       { path: 'tools/crypto/uuid', loadComponent: () => import('./tools/crypto/uuid/uuid.component').then(m => m.UuidComponent), title: 'UUID / GUID Generator — DevAssistant' },
 
       // Module 6: .NET Utilities
+      { path: 'tools/dotnet/roslyn-workbench', loadComponent: () => import('./tools/dotnet/roslyn-workbench/roslyn-workbench.component').then(m => m.RoslynWorkbenchComponent), title: '.NET 10 & Roslyn Workbench — DevAssistant' },
       { path: 'tools/dotnet/csharp-to-ts', loadComponent: () => import('./tools/dotnet/csharp-to-ts/csharp-to-ts.component').then(m => m.CsharpToTsComponent), title: 'C# POCO to TypeScript — DevAssistant' },
       { path: 'tools/dotnet/csharp-to-json-schema', loadComponent: () => import('./tools/dotnet/csharp-to-json-schema/csharp-to-json-schema.component').then(m => m.CsharpToJsonSchemaComponent), title: 'C# POCO to JSON Schema — DevAssistant' },
       { path: 'tools/dotnet/regex-tester', loadComponent: () => import('./tools/dotnet/regex-tester/regex-tester.component').then(m => m.RegexTesterComponent), title: 'Regex Tester — DevAssistant' },

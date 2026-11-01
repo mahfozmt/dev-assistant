@@ -82,3 +82,9 @@ appsettings.Local.json
 
 deploy.zip
 *.zip
+
+# API Runtime Data & Logs
+api/**/App_Data/
+api/**/logs/
+publish-api/
+app_offline.htm

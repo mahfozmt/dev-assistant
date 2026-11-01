@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
+import { ApiService } from '../../../core/services/api.service';
 
 interface SchemaOptions {
   schemaDraft: 'draft-07' | '2020-12';
@@ -36,6 +37,15 @@ interface PropertyDefinition {
         </div>
 
         <div class="flex items-center gap-2 flex-wrap">
+          <button
+            type="button"
+            (click)="parseWithRoslynServer()"
+            [disabled]="!csharpInput() || isRoslynLoading()"
+            title="Generate JSON Schema using real Roslyn syntax tree on api.mahfozmt.com"
+            class="px-2.5 py-1.5 text-xs font-medium text-amber-800 dark:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 disabled:opacity-50 rounded-lg transition-colors flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            <span>{{ isRoslynLoading() ? 'Roslyn Parsing...' : 'Roslyn AST (Runs on server)' }}</span>
+          </button>
           <button
             type="button"
             (click)="loadSample()"
@@ -160,8 +170,11 @@ interface PropertyDefinition {
 })
 export class CsharpToJsonSchemaComponent {
   private readonly toast = inject(ToastService);
+  private readonly api = inject(ApiService);
 
   readonly csharpInput = signal<string>('');
+  readonly roslynOverrideSchema = signal<string | null>(null);
+  readonly isRoslynLoading = signal<boolean>(false);
 
   readonly options = signal<SchemaOptions>({
     schemaDraft: 'draft-07',
@@ -171,17 +184,45 @@ export class CsharpToJsonSchemaComponent {
   });
 
   readonly schemaOutput = computed(() => {
+    const override = this.roslynOverrideSchema();
+    if (override !== null) return override;
     const input = this.csharpInput().trim();
     if (!input) return '';
     return this.generateJsonSchema(input, this.options());
   });
 
   onInputChange(val: string): void {
+    this.roslynOverrideSchema.set(null);
     this.csharpInput.set(val);
   }
 
   updateOption<K extends keyof SchemaOptions>(key: K, value: SchemaOptions[K]): void {
+    this.roslynOverrideSchema.set(null);
     this.options.update(opts => ({ ...opts, [key]: value }));
+  }
+
+  async parseWithRoslynServer(): Promise<void> {
+    const code = this.csharpInput().trim();
+    if (!code) return;
+    this.isRoslynLoading.set(true);
+    try {
+      const opts = this.options();
+      const res = await this.api.convertCSharpToJsonSchemaRoslyn({
+        code,
+        camelCaseProperties: opts.camelCaseProperties,
+        additionalPropertiesFalse: true
+      });
+      if (res.jsonSchema) {
+        this.roslynOverrideSchema.set(res.jsonSchema);
+        this.toast.success('Generated JSON Schema via Roslyn on api.mahfozmt.com');
+      } else {
+        this.toast.warning('Roslyn found no public types; using browser fallback.');
+      }
+    } catch {
+      this.toast.warning('Server API unavailable — using instant local browser generator.');
+    } finally {
+      this.isRoslynLoading.set(false);
+    }
   }
 
   loadSample(): void {

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
+import { ApiService } from '../../../core/services/api.service';
 
 interface ConversionOptions {
   outputType: 'interface' | 'type';
@@ -44,6 +45,15 @@ interface ParsedEntity {
         </div>
 
         <div class="flex items-center gap-2 flex-wrap">
+          <button
+            type="button"
+            (click)="parseWithRoslynServer()"
+            [disabled]="!csharpInput() || isRoslynLoading()"
+            title="Parse C# syntax tree using real Roslyn compiler on api.mahfozmt.com"
+            class="px-2.5 py-1.5 text-xs font-medium text-amber-800 dark:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 disabled:opacity-50 rounded-lg transition-colors flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            <span>{{ isRoslynLoading() ? 'Roslyn Parsing...' : 'Roslyn AST (Runs on server)' }}</span>
+          </button>
           <button
             type="button"
             (click)="loadSample()"
@@ -179,8 +189,11 @@ interface ParsedEntity {
 })
 export class CsharpToTsComponent {
   private readonly toast = inject(ToastService);
+  private readonly api = inject(ApiService);
 
   readonly csharpInput = signal<string>('');
+  readonly roslynOverrideOutput = signal<string | null>(null);
+  readonly isRoslynLoading = signal<boolean>(false);
 
   readonly options = signal<ConversionOptions>({
     outputType: 'interface',
@@ -191,17 +204,47 @@ export class CsharpToTsComponent {
   });
 
   readonly tsOutput = computed(() => {
+    const override = this.roslynOverrideOutput();
+    if (override !== null) return override;
     const input = this.csharpInput().trim();
     if (!input) return '';
     return this.convertCSharpToTs(input, this.options());
   });
 
   onInputChange(val: string): void {
+    this.roslynOverrideOutput.set(null);
     this.csharpInput.set(val);
   }
 
   updateOption<K extends keyof ConversionOptions>(key: K, value: ConversionOptions[K]): void {
+    this.roslynOverrideOutput.set(null);
     this.options.update(opts => ({ ...opts, [key]: value }));
+  }
+
+  async parseWithRoslynServer(): Promise<void> {
+    const code = this.csharpInput().trim();
+    if (!code) return;
+    this.isRoslynLoading.set(true);
+    try {
+      const opts = this.options();
+      const res = await this.api.convertCSharpToTsRoslyn({
+        code,
+        useTypeInsteadOfInterface: opts.outputType === 'type',
+        camelCaseProperties: opts.camelCaseProperties,
+        exportKeywords: opts.exportKeyword,
+        dateMapping: opts.dateType
+      });
+      if (res.typeScriptCode) {
+        this.roslynOverrideOutput.set(res.typeScriptCode);
+        this.toast.success(`Converted ${res.typeCount} type(s) via Roslyn on api.mahfozmt.com`);
+      } else {
+        this.toast.warning('Roslyn found no public types; using browser fallback.');
+      }
+    } catch {
+      this.toast.warning('Server API unavailable — using instant local browser converter.');
+    } finally {
+      this.isRoslynLoading.set(false);
+    }
   }
 
   loadSample(): void {

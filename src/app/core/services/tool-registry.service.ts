@@ -213,6 +213,19 @@ export class ToolRegistryService {
 
     // Module 6: .NET & Utilities
     {
+      id: 'roslyn-workbench',
+      name: '.NET 10 & Roslyn Workbench',
+      description: 'Server-backed C#/IL/AST decompiler, T-SQL ScriptDom parser, Connection String auditor, JSON to C#, and TimeZoneInfo tester.',
+      category: 'dotnet',
+      categoryName: '.NET & Utilities',
+      route: '/tools/dotnet/roslyn-workbench',
+      icon: 'cpu',
+      tags: ['roslyn', 'il', 'tsql', 'connection-string', 'dotnet-10', 'server'],
+      keywords: ['decompiler', 'scriptdom', 'sqlclient', 'npgsql', 'timezoneinfo', 'share'],
+      badge: 'Runs on server',
+      isPopular: true
+    },
+    {
       id: 'csharp-to-ts',
       name: 'C# POCO to TypeScript',
       description: 'Convert C# POCO classes and records to clean TypeScript interfaces and types.',
