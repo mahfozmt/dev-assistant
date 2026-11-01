@@ -43,10 +43,10 @@ DevAssistant is an ultra-fast, client-side developer workstation built with **An
 | 15 | **JWT Debugger & Inspector** | `/tools/crypto/jwt` | Crypto & Security | ✅ Completed |
 | 16 | **Hash & HMAC Generator** | `/tools/crypto/hash` | Crypto & Security | ✅ Completed |
 | 17 | **UUID / GUID Generator** | `/tools/crypto/uuid` | Crypto & Security | ✅ Completed |
-| 18 | **C# POCO to TypeScript** | `/tools/dotnet/csharp-to-ts` | .NET Utilities | ⏳ **Pending (Phase 6)** |
-| 19 | **C# POCO to JSON Schema** | `/tools/dotnet/csharp-to-json-schema` | .NET Utilities | ⏳ **Pending (Phase 6)** |
-| 20 | **Regex Tester & Explainer** | `/tools/dotnet/regex-tester` | .NET Utilities | ⏳ **Pending (Phase 6)** |
-| 21 | **Cron Expression Parser** | `/tools/dotnet/cron-parser` | .NET Utilities | ⏳ **Pending (Phase 6)** |
+| 18 | **C# POCO to TypeScript** | `/tools/dotnet/csharp-to-ts` | .NET Utilities | ✅ Completed |
+| 19 | **C# POCO to JSON Schema** | `/tools/dotnet/csharp-to-json-schema` | .NET Utilities | ✅ Completed |
+| 20 | **Regex Tester & Explainer** | `/tools/dotnet/regex-tester` | .NET Utilities | ✅ Completed |
+| 21 | **Cron Expression Parser** | `/tools/dotnet/cron-parser` | .NET Utilities | ✅ Completed |
 
 ---
 

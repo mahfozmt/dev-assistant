@@ -77,10 +77,10 @@ export const routes: Routes = [
       { path: 'tools/crypto/uuid', loadComponent: () => import('./tools/crypto/uuid/uuid.component').then(m => m.UuidComponent), title: 'UUID / GUID Generator — DevAssistant' },
 
       // Module 6: .NET Utilities
-      { path: 'tools/dotnet/csharp-to-ts', component: ToolPlaceholderComponent, title: 'C# POCO to TypeScript — DevAssistant' },
-      { path: 'tools/dotnet/csharp-to-json-schema', component: ToolPlaceholderComponent, title: 'C# POCO to JSON Schema — DevAssistant' },
-      { path: 'tools/dotnet/regex-tester', component: ToolPlaceholderComponent, title: 'Regex Tester — DevAssistant' },
-      { path: 'tools/dotnet/cron-parser', component: ToolPlaceholderComponent, title: 'Cron Expression Parser — DevAssistant' },
+      { path: 'tools/dotnet/csharp-to-ts', loadComponent: () => import('./tools/dotnet/csharp-to-ts/csharp-to-ts.component').then(m => m.CsharpToTsComponent), title: 'C# POCO to TypeScript — DevAssistant' },
+      { path: 'tools/dotnet/csharp-to-json-schema', loadComponent: () => import('./tools/dotnet/csharp-to-json-schema/csharp-to-json-schema.component').then(m => m.CsharpToJsonSchemaComponent), title: 'C# POCO to JSON Schema — DevAssistant' },
+      { path: 'tools/dotnet/regex-tester', loadComponent: () => import('./tools/dotnet/regex-tester/regex-tester.component').then(m => m.RegexTesterComponent), title: 'Regex Tester — DevAssistant' },
+      { path: 'tools/dotnet/cron-parser', loadComponent: () => import('./tools/dotnet/cron-parser/cron-parser.component').then(m => m.CronParserComponent), title: 'Cron Expression Parser — DevAssistant' },
 
       { path: '**', redirectTo: '' }
     ]
