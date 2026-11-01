@@ -56,7 +56,16 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   ArrowUpRight,
-  SearchCode
+  SearchCode,
+  CheckCircle2,
+  ListFilter,
+  Plus,
+  RefreshCw,
+  ShieldQuestion,
+  UploadCloud,
+  XCircle,
+  Zap,
+  Unlock
 } from 'lucide-angular';
 
 export function provideAppIcons(): Provider {
@@ -118,7 +127,16 @@ export function provideAppIcons(): Provider {
       PanelLeftClose,
       PanelLeftOpen,
       ArrowUpRight,
-      SearchCode
+      SearchCode,
+      CheckCircle2,
+      ListFilter,
+      Plus,
+      RefreshCw,
+      ShieldQuestion,
+      UploadCloud,
+      XCircle,
+      Zap,
+      Unlock
     })
   };
 }
