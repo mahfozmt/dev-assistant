@@ -83,4 +83,5 @@ Frontend:
 
 ## Later
 
+- In-browser C# runner (Blazor WebAssembly + Roslyn): runs code in the visitor's browser sandbox, works on the current static hosting. Deferred because of the 10 to 20 MB first download.
 - Real code execution in throwaway containers, only on a VPS or Azure Container Apps.
