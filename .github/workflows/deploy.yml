@@ -100,5 +100,14 @@ jobs:
           curl --silent --show-error --ssl-reqd --insecure \
             --user "${API_FTP_USER}:${API_FTP_PASS}" \
             -Q "DELE /app_offline.htm" "ftp://${FTP_SERVER}/" || true
-          sleep 5
-          curl --fail --silent --show-error --retry 5 --retry-delay 3 https://api.mahfozmt.com/health
+          for attempt in 1 2 3 4 5 6 7 8; do
+            echo "Checking https://api.mahfozmt.com/health (attempt ${attempt})..."
+            if curl --fail --silent --show-error https://api.mahfozmt.com/health; then
+              echo ""
+              echo "API health check succeeded!"
+              exit 0
+            fi
+            sleep 4
+          done
+          echo "API health check did not return 200 OK in time."
+          exit 1
