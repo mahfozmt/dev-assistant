@@ -39,8 +39,13 @@
               "ajv",
               "ajv/dist/2020",
               "ajv-formats",
+              "bcryptjs",
+              "cronstrue",
+              "crypto-js",
               "diff",
-              "nearley"
+              "js-yaml",
+              "nearley",
+              "papaparse"
             ]
           },
           "configurations": {

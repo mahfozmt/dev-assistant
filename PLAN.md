@@ -35,14 +35,14 @@ DevAssistant is an ultra-fast, client-side developer workstation built with **An
 | 7 | **Inline Diff Viewer** | `/tools/diff/inline` | Diff Viewer | ✅ Completed |
 | 8 | **CSS / SCSS Formatter** | `/tools/formatters/css` | Formatters | ✅ Completed |
 | 9 | **JSON Schema Validator** | `/tools/parsers/schema-validator` | Parsers | ✅ Completed |
-| 10 | **JSON ↔ CSV / TSV Converter** | `/tools/converters/json-csv` | Converters | ⏳ **Pending (Phase 4)** |
-| 11 | **JSON ↔ YAML Converter** | `/tools/converters/json-yaml` | Converters | ⏳ **Pending (Phase 4)** |
-| 12 | **Base64 Encoder / Decoder** | `/tools/converters/base64` | Converters | ⏳ **Pending (Phase 4)** |
-| 13 | **URL & Query String Tool** | `/tools/converters/url` | Converters | ⏳ **Pending (Phase 4)** |
-| 14 | **BCrypt Generator & Verifier** | `/tools/crypto/bcrypt` | Crypto & Security | ⏳ **Pending (Phase 5)** |
-| 15 | **JWT Debugger & Inspector** | `/tools/crypto/jwt` | Crypto & Security | ⏳ **Pending (Phase 5)** |
-| 16 | **Hash & HMAC Generator** | `/tools/crypto/hash` | Crypto & Security | ⏳ **Pending (Phase 5)** |
-| 17 | **UUID / GUID Generator** | `/tools/crypto/uuid` | Crypto & Security | ⏳ **Pending (Phase 5)** |
+| 10 | **JSON ↔ CSV / TSV Converter** | `/tools/converters/json-csv` | Converters | ✅ Completed |
+| 11 | **JSON ↔ YAML Converter** | `/tools/converters/json-yaml` | Converters | ✅ Completed |
+| 12 | **Base64 Encoder / Decoder** | `/tools/converters/base64` | Converters | ✅ Completed |
+| 13 | **URL & Query String Tool** | `/tools/converters/url` | Converters | ✅ Completed |
+| 14 | **BCrypt Generator & Verifier** | `/tools/crypto/bcrypt` | Crypto & Security | ✅ Completed |
+| 15 | **JWT Debugger & Inspector** | `/tools/crypto/jwt` | Crypto & Security | ✅ Completed |
+| 16 | **Hash & HMAC Generator** | `/tools/crypto/hash` | Crypto & Security | ✅ Completed |
+| 17 | **UUID / GUID Generator** | `/tools/crypto/uuid` | Crypto & Security | ✅ Completed |
 | 18 | **C# POCO to TypeScript** | `/tools/dotnet/csharp-to-ts` | .NET Utilities | ⏳ **Pending (Phase 6)** |
 | 19 | **C# POCO to JSON Schema** | `/tools/dotnet/csharp-to-json-schema` | .NET Utilities | ⏳ **Pending (Phase 6)** |
 | 20 | **Regex Tester & Explainer** | `/tools/dotnet/regex-tester` | .NET Utilities | ⏳ **Pending (Phase 6)** |

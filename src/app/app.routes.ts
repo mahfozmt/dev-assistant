@@ -65,16 +65,16 @@ export const routes: Routes = [
       },
 
       // Module 4: Converters
-      { path: 'tools/converters/json-csv', component: ToolPlaceholderComponent, title: 'JSON ↔ CSV / TSV — DevAssistant' },
-      { path: 'tools/converters/json-yaml', component: ToolPlaceholderComponent, title: 'JSON ↔ YAML — DevAssistant' },
-      { path: 'tools/converters/base64', component: ToolPlaceholderComponent, title: 'Base64 Encoder / Decoder — DevAssistant' },
-      { path: 'tools/converters/url', component: ToolPlaceholderComponent, title: 'URL & Query String Tool — DevAssistant' },
+      { path: 'tools/converters/json-csv', loadComponent: () => import('./tools/converters/json-csv/json-csv.component').then(m => m.JsonCsvComponent), title: 'JSON ↔ CSV / TSV — DevAssistant' },
+      { path: 'tools/converters/json-yaml', loadComponent: () => import('./tools/converters/json-yaml/json-yaml.component').then(m => m.JsonYamlComponent), title: 'JSON ↔ YAML — DevAssistant' },
+      { path: 'tools/converters/base64', loadComponent: () => import('./tools/converters/base64/base64.component').then(m => m.Base64Component), title: 'Base64 Encoder / Decoder — DevAssistant' },
+      { path: 'tools/converters/url', loadComponent: () => import('./tools/converters/url/url.component').then(m => m.UrlComponent), title: 'URL & Query String Tool — DevAssistant' },
 
       // Module 5: Crypto & Security
-      { path: 'tools/crypto/bcrypt', component: ToolPlaceholderComponent, title: 'BCrypt Tool — DevAssistant' },
-      { path: 'tools/crypto/jwt', component: ToolPlaceholderComponent, title: 'JWT Debugger — DevAssistant' },
-      { path: 'tools/crypto/hash', component: ToolPlaceholderComponent, title: 'Hash & HMAC Generator — DevAssistant' },
-      { path: 'tools/crypto/uuid', component: ToolPlaceholderComponent, title: 'UUID / GUID Generator — DevAssistant' },
+      { path: 'tools/crypto/bcrypt', loadComponent: () => import('./tools/crypto/bcrypt/bcrypt.component').then(m => m.BcryptComponent), title: 'BCrypt Tool — DevAssistant' },
+      { path: 'tools/crypto/jwt', loadComponent: () => import('./tools/crypto/jwt/jwt.component').then(m => m.JwtComponent), title: 'JWT Debugger — DevAssistant' },
+      { path: 'tools/crypto/hash', loadComponent: () => import('./tools/crypto/hash/hash.component').then(m => m.HashComponent), title: 'Hash & HMAC Generator — DevAssistant' },
+      { path: 'tools/crypto/uuid', loadComponent: () => import('./tools/crypto/uuid/uuid.component').then(m => m.UuidComponent), title: 'UUID / GUID Generator — DevAssistant' },
 
       // Module 6: .NET Utilities
       { path: 'tools/dotnet/csharp-to-ts', component: ToolPlaceholderComponent, title: 'C# POCO to TypeScript — DevAssistant' },
