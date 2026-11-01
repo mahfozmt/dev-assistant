@@ -136,7 +136,7 @@ export class ToolRegistryService {
       category: 'converters',
       categoryName: 'Converters',
       route: '/tools/converters/json-yaml',
-      icon: 'file-code-2',
+      icon: 'file-code',
       tags: ['json', 'yaml', 'yml', 'convert', 'kubernetes'],
       keywords: ['config', 'docker-compose']
     },
@@ -231,7 +231,7 @@ export class ToolRegistryService {
       category: 'dotnet',
       categoryName: '.NET & Utilities',
       route: '/tools/dotnet/csharp-to-json-schema',
-      icon: 'file-json',
+      icon: 'file-text',
       tags: ['c#', 'csharp', 'json-schema', 'dotnet'],
       keywords: ['schema', 'validation']
     },
