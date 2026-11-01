@@ -20,24 +20,26 @@ import { ToolDefinition } from '../models/tool.model';
         <!-- Mobile Sidebar Toggle -->
         <button
           type="button"
-          class="lg:hidden p-1.5 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-850 transition-colors"
+          class="lg:hidden p-1.5 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-850 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors"
           (click)="toggleMobileSidebar.emit()"
-          aria-label="Toggle menu">
+          aria-label="Toggle navigation menu">
           <lucide-icon name="menu" class="w-4 h-4"></lucide-icon>
         </button>
 
         <!-- Desktop Sidebar Toggle -->
         <button
           type="button"
-          class="hidden lg:flex p-1.5 rounded-md text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-850 transition-colors"
+          class="hidden lg:flex p-1.5 rounded-md text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-850 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors"
           (click)="toggleSidebar.emit()"
-          [title]="isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
+          [title]="isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+          [attr.aria-label]="isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+          [attr.aria-expanded]="!isSidebarCollapsed">
           <lucide-icon [name]="isSidebarCollapsed ? 'panel-left-open' : 'panel-left-close'" class="w-4 h-4"></lucide-icon>
         </button>
 
         <!-- Breadcrumbs & Active Tool Info -->
         <nav class="flex items-center gap-1.5 text-xs min-w-0 font-medium" aria-label="Breadcrumb">
-          <a routerLink="/" class="text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 transition-colors flex items-center gap-1 shrink-0">
+          <a routerLink="/" class="text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none rounded transition-colors flex items-center gap-1 shrink-0">
             <lucide-icon name="house" class="w-3.5 h-3.5"></lucide-icon>
             <span class="hidden sm:inline font-mono text-[11px]">Workstation</span>
           </a>
@@ -53,10 +55,12 @@ import { ToolDefinition } from '../models/tool.model';
             <!-- Favorite Star Button -->
             <button
               type="button"
-              class="p-0.5 rounded text-surface-400 hover:text-amber-500 transition-colors"
+              class="p-0.5 rounded text-surface-400 hover:text-amber-500 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors"
               [class.text-amber-500]="registry.isFavorite(currentTool.id)"
               (click)="registry.toggleFavorite(currentTool.id)"
-              [title]="registry.isFavorite(currentTool.id) ? 'Remove from favorites' : 'Add to favorites'">
+              [title]="registry.isFavorite(currentTool.id) ? 'Remove from favorites' : 'Add to favorites'"
+              [attr.aria-label]="registry.isFavorite(currentTool.id) ? 'Remove from favorites' : 'Add to favorites'"
+              [attr.aria-pressed]="registry.isFavorite(currentTool.id)">
               <lucide-icon name="star" class="w-3.5 h-3.5" [class.fill-amber-500]="registry.isFavorite(currentTool.id)"></lucide-icon>
             </button>
           }
@@ -69,7 +73,8 @@ import { ToolDefinition } from '../models/tool.model';
         <button
           type="button"
           (click)="hotkeys.openSearch()"
-          class="flex items-center gap-2 px-2.5 py-1 text-xs rounded-md bg-surface-100/80 dark:bg-surface-850 hover:bg-surface-200/80 dark:hover:bg-surface-800 text-surface-500 dark:text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 transition-colors border border-surface-200/60 dark:border-surface-750">
+          aria-label="Search tools (Ctrl+K)"
+          class="flex items-center gap-2 px-2.5 py-1 text-xs rounded-md bg-surface-100/80 dark:bg-surface-850 hover:bg-surface-200/80 dark:hover:bg-surface-800 text-surface-500 dark:text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors border border-surface-200/60 dark:border-surface-750">
           <lucide-icon name="search" class="w-3.5 h-3.5"></lucide-icon>
           <span class="hidden sm:inline text-[11px]">Search</span>
           <kbd class="ml-1 text-[9px] py-0">Ctrl K</kbd>
@@ -79,8 +84,9 @@ import { ToolDefinition } from '../models/tool.model';
         <button
           type="button"
           (click)="theme.cycleTheme()"
-          class="p-1.5 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-850 transition-colors"
-          [title]="'Theme: ' + theme.theme() + ' (Click to change)'">
+          class="p-1.5 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-850 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors"
+          [title]="'Theme: ' + theme.theme() + ' (Click to change)'"
+          [attr.aria-label]="'Switch theme (current: ' + theme.theme() + ')'">
           @if (theme.theme() === 'dark') {
             <lucide-icon name="moon" class="w-4 h-4"></lucide-icon>
           } @else if (theme.theme() === 'light') {
