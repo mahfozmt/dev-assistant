@@ -40,5 +40,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/dev-assistant/browser/
           server-dir: /
-          protocol: ftp
+          protocol: ftps
           dangerous-clean-slate: false
