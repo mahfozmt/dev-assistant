@@ -17,7 +17,7 @@ import { ToastService } from '../../core/services/toast.service';
             type="button"
             (click)="primaryAction.emit()"
             [disabled]="isBusy"
-            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-surface-900 dark:bg-surface-100 hover:bg-surface-800 dark:hover:bg-white text-white dark:text-surface-950 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xs">
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-surface-900 dark:bg-surface-100 hover:bg-surface-800 dark:hover:bg-white text-white dark:text-surface-950 font-medium disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-all shadow-xs">
             <lucide-icon [name]="primaryActionIcon" class="w-3.5 h-3.5"></lucide-icon>
             <span>{{ primaryActionLabel }}</span>
           </button>
@@ -35,7 +35,8 @@ import { ToastService } from '../../core/services/toast.service';
             type="button"
             (click)="loadSample.emit()"
             title="Load sample input payload"
-            class="px-2 py-1 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors flex items-center gap-1.5 text-xs">
+            aria-label="Load sample input payload"
+            class="px-2 py-1 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors flex items-center gap-1.5 text-xs">
             <lucide-icon name="clipboard-paste" class="w-3.5 h-3.5"></lucide-icon>
             <span class="hidden sm:inline">Sample</span>
           </button>
@@ -47,7 +48,8 @@ import { ToastService } from '../../core/services/toast.service';
             type="button"
             (click)="clear.emit()"
             title="Clear editor contents"
-            class="px-2 py-1 rounded-md text-surface-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors flex items-center gap-1.5 text-xs">
+            aria-label="Clear editor contents"
+            class="px-2 py-1 rounded-md text-surface-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-surface-100 dark:hover:bg-surface-800 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors flex items-center gap-1.5 text-xs">
             <lucide-icon name="trash-2" class="w-3.5 h-3.5"></lucide-icon>
             <span class="hidden sm:inline">Clear</span>
           </button>
@@ -59,7 +61,8 @@ import { ToastService } from '../../core/services/toast.service';
             type="button"
             (click)="onCopy()"
             [title]="copied() ? 'Copied to clipboard' : 'Copy output'"
-            class="px-2 py-1 rounded-md font-medium transition-colors flex items-center gap-1.5 text-xs"
+            [attr.aria-label]="copied() ? 'Copied to clipboard' : 'Copy output'"
+            class="px-2 py-1 rounded-md font-medium focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors flex items-center gap-1.5 text-xs"
             [ngClass]="copied() 
               ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
               : 'text-surface-600 dark:text-surface-300 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800'">
@@ -74,7 +77,8 @@ import { ToastService } from '../../core/services/toast.service';
             type="button"
             (click)="onDownload()"
             title="Download payload as file"
-            class="px-2 py-1 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors flex items-center gap-1.5 text-xs">
+            aria-label="Download payload as file"
+            class="px-2 py-1 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors flex items-center gap-1.5 text-xs">
             <lucide-icon name="download" class="w-3.5 h-3.5"></lucide-icon>
             <span class="hidden sm:inline">Download</span>
           </button>
@@ -86,7 +90,9 @@ import { ToastService } from '../../core/services/toast.service';
             type="button"
             (click)="toggleFullscreen.emit()"
             [title]="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
-            class="p-1 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors">
+            [attr.aria-label]="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
+            [attr.aria-pressed]="isFullscreen"
+            class="p-1 rounded-md text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors">
             <lucide-icon [name]="isFullscreen ? 'minimize-2' : 'maximize-2'" class="w-3.5 h-3.5"></lucide-icon>
           </button>
         }
