@@ -33,7 +33,8 @@ export type SplitLayoutMode = 'horizontal' | 'vertical';
               type="button"
               (click)="onSwap()"
               title="Swap input and output"
-              class="p-1 rounded text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200/60 dark:hover:bg-surface-800 transition-colors">
+              aria-label="Swap input and output"
+              class="p-1 rounded text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200/60 dark:hover:bg-surface-800 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors">
               <lucide-icon name="arrow-left-right" class="w-3.5 h-3.5"></lucide-icon>
             </button>
           }
@@ -43,7 +44,8 @@ export type SplitLayoutMode = 'horizontal' | 'vertical';
             type="button"
             (click)="toggleLayout()"
             [title]="layoutMode() === 'horizontal' ? 'Switch to stacked vertical layout' : 'Switch to side-by-side layout'"
-            class="p-1 rounded text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200/60 dark:hover:bg-surface-800 transition-colors">
+            [attr.aria-label]="layoutMode() === 'horizontal' ? 'Switch to stacked vertical layout' : 'Switch to side-by-side layout'"
+            class="p-1 rounded text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200/60 dark:hover:bg-surface-800 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors">
             <lucide-icon [name]="layoutMode() === 'horizontal' ? 'columns-2' : 'sheet'" class="w-3.5 h-3.5"></lucide-icon>
           </button>
 
@@ -52,7 +54,9 @@ export type SplitLayoutMode = 'horizontal' | 'vertical';
             type="button"
             (click)="toggleFullscreen()"
             [title]="isFullscreen() ? 'Exit fullscreen' : 'Fullscreen'"
-            class="p-1 rounded text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200/60 dark:hover:bg-surface-800 transition-colors">
+            [attr.aria-label]="isFullscreen() ? 'Exit fullscreen' : 'Fullscreen'"
+            [attr.aria-pressed]="isFullscreen()"
+            class="p-1 rounded text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-200/60 dark:hover:bg-surface-800 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors">
             <lucide-icon [name]="isFullscreen() ? 'minimize-2' : 'maximize-2'" class="w-3.5 h-3.5"></lucide-icon>
           </button>
         </div>
