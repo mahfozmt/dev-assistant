@@ -14,10 +14,11 @@ import { ToastService, ToastType } from '../../core/services/toast.service';
       
       @for (toast of toastService.toasts(); track toast.id) {
         <div 
+          [attr.role]="toast.type === 'error' ? 'alert' : 'status'"
           class="pointer-events-auto flex items-start gap-3 p-3.5 rounded-xl shadow-lg border backdrop-blur-md transition-all animate-in slide-in-from-bottom-5 duration-200"
           [ngClass]="getToastClasses(toast.type)">
           
-          <div class="shrink-0 mt-0.5">
+          <div class="shrink-0 mt-0.5" aria-hidden="true">
             @switch (toast.type) {
               @case ('success') {
                 <lucide-icon name="circle-check" class="w-4 h-4 text-emerald-500"></lucide-icon>
@@ -48,7 +49,9 @@ import { ToastService, ToastType } from '../../core/services/toast.service';
           <button 
             type="button" 
             (click)="toastService.remove(toast.id)"
-            class="text-surface-400 hover:text-surface-700 dark:hover:text-surface-200 transition-colors shrink-0 p-0.5">
+            title="Dismiss notification"
+            [attr.aria-label]="'Dismiss ' + (toast.title || toast.message || 'notification')"
+            class="text-surface-400 hover:text-surface-700 dark:hover:text-surface-200 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors shrink-0 p-0.5 rounded">
             <lucide-icon name="x" class="w-3.5 h-3.5"></lucide-icon>
           </button>
         </div>
