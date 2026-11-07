@@ -55,6 +55,22 @@ describe('SidebarComponent', () => {
     expect(component.isExpanded(categoryId)).toBeTrue();
   });
 
+  it('should render category buttons with aria-expanded, aria-controls, and focus-visible classes', () => {
+    const formattersCat = registry.categories.find(c => c.id === 'formatters');
+    const categoryBtn = fixture.nativeElement.querySelector('button[aria-controls="category-tools-formatters"]');
+    expect(categoryBtn).toBeTruthy();
+    expect(categoryBtn.getAttribute('aria-expanded')).toBe('true');
+    expect(categoryBtn.getAttribute('aria-label')).toBe(`Collapse ${formattersCat?.title} category`);
+    expect(categoryBtn.className).toContain('focus-visible:ring-brand-500');
+
+    // Toggle to collapsed
+    component.toggleCategory('formatters');
+    fixture.detectChanges();
+
+    expect(categoryBtn.getAttribute('aria-expanded')).toBe('false');
+    expect(categoryBtn.getAttribute('aria-label')).toBe(`Expand ${formattersCat?.title} category`);
+  });
+
   it('should auto-expand category for matching active route', () => {
     const router = TestBed.inject(Router);
     // Collapse formatters
