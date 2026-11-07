@@ -42,7 +42,7 @@ import { ToolRegistryService } from '../services/tool-registry.service';
             routerLinkActive="bg-surface-100 dark:bg-surface-850 text-surface-900 dark:text-surface-100 font-medium"
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="navigate.emit()"
-            class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs text-surface-500 hover:text-surface-900 dark:hover:text-surface-200 hover:bg-surface-50 dark:hover:bg-surface-900 transition-colors"
+            class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs text-surface-500 hover:text-surface-900 dark:hover:text-surface-200 hover:bg-surface-50 dark:hover:bg-surface-900 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors"
             [title]="isCollapsed ? 'Dashboard' : ''">
             <lucide-icon name="house" class="w-3.5 h-3.5 shrink-0"></lucide-icon>
             @if (!isCollapsed) {
@@ -66,7 +66,7 @@ import { ToolRegistryService } from '../services/tool-registry.service';
                   [routerLink]="tool.route"
                   routerLinkActive="bg-surface-100 dark:bg-surface-850 text-surface-900 dark:text-surface-100 font-medium"
                   (click)="navigate.emit()"
-                  class="flex items-center gap-2.5 px-2.5 py-1 rounded-md text-xs text-surface-500 hover:text-surface-900 dark:hover:text-surface-200 hover:bg-surface-50 dark:hover:bg-surface-900 transition-colors"
+                  class="flex items-center gap-2.5 px-2.5 py-1 rounded-md text-xs text-surface-500 hover:text-surface-900 dark:hover:text-surface-200 hover:bg-surface-50 dark:hover:bg-surface-900 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors"
                   [title]="isCollapsed ? tool.name : ''">
                   <lucide-icon [name]="tool.icon" class="w-3.5 h-3.5 shrink-0 text-amber-500"></lucide-icon>
                   @if (!isCollapsed) {
@@ -85,7 +85,11 @@ import { ToolRegistryService } from '../services/tool-registry.service';
               <button
                 type="button"
                 (click)="toggleCategory(category.id)"
-                class="w-full flex items-center justify-between px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-surface-400 hover:text-surface-700 dark:hover:text-surface-200 font-semibold rounded transition-colors group">
+                [attr.aria-expanded]="isExpanded(category.id)"
+                [attr.aria-controls]="'category-tools-' + category.id"
+                [attr.aria-label]="(isExpanded(category.id) ? 'Collapse ' : 'Expand ') + category.title + ' category'"
+                [title]="(isExpanded(category.id) ? 'Collapse ' : 'Expand ') + category.title"
+                class="w-full flex items-center justify-between px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-surface-400 hover:text-surface-700 dark:hover:text-surface-200 font-semibold rounded focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors group">
                 <span class="truncate">{{ category.title }}</span>
                 <lucide-icon 
                   [name]="isExpanded(category.id) ? 'chevron-down' : 'chevron-right'" 
@@ -95,13 +99,13 @@ import { ToolRegistryService } from '../services/tool-registry.service';
             }
             
             @if (isCollapsed || isExpanded(category.id)) {
-              <div class="space-y-0.5">
+              <div class="space-y-0.5" [id]="'category-tools-' + category.id">
                 @for (tool of category.tools; track tool.id) {
                   <a
                     [routerLink]="tool.route"
                     routerLinkActive="bg-surface-100 dark:bg-surface-850 text-surface-900 dark:text-surface-100 font-medium"
                     (click)="navigate.emit()"
-                    class="flex items-center justify-between px-2.5 py-1 rounded-md text-xs text-surface-500 hover:text-surface-900 dark:hover:text-surface-200 hover:bg-surface-50 dark:hover:bg-surface-900 transition-colors group"
+                    class="flex items-center justify-between px-2.5 py-1 rounded-md text-xs text-surface-500 hover:text-surface-900 dark:hover:text-surface-200 hover:bg-surface-50 dark:hover:bg-surface-900 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors group"
                     [title]="isCollapsed ? tool.name : ''">
                     <div class="flex items-center gap-2.5 min-w-0">
                       <lucide-icon [name]="tool.icon" class="w-3.5 h-3.5 shrink-0 opacity-70 group-hover:opacity-100"></lucide-icon>
