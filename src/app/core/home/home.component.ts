@@ -37,7 +37,7 @@ import { ToolCategory, ToolDefinition } from '../models/tool.model';
             <button
               type="button"
               (click)="hotkeys.openSearch()"
-              class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium rounded-lg bg-surface-100 dark:bg-surface-850 hover:bg-surface-200 dark:hover:bg-surface-800 text-surface-700 dark:text-surface-300 border border-surface-200 dark:border-surface-750 transition-colors shadow-xs group">
+              class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium rounded-lg bg-surface-100 dark:bg-surface-850 hover:bg-surface-200 dark:hover:bg-surface-800 text-surface-700 dark:text-surface-300 border border-surface-200 dark:border-surface-750 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors shadow-xs group">
               <lucide-icon name="search" class="w-3.5 h-3.5 text-surface-400 group-hover:text-surface-700 dark:group-hover:text-surface-200 transition-colors"></lucide-icon>
               <span>Command Palette</span>
               <kbd class="ml-1">Ctrl K</kbd>
@@ -47,7 +47,7 @@ import { ToolCategory, ToolDefinition } from '../models/tool.model';
               href="https://lab.mahfozmt.com" 
               target="_blank" 
               rel="noopener"
-              class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-medium rounded-lg text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 transition-colors">
+              class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-medium rounded-lg text-surface-500 hover:text-surface-900 dark:hover:text-surface-100 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors">
               <span>lab.mahfozmt.com</span>
               <lucide-icon name="arrow-up-right" class="w-3 h-3 text-surface-400"></lucide-icon>
             </a>
@@ -55,11 +55,17 @@ import { ToolCategory, ToolDefinition } from '../models/tool.model';
         </div>
 
         <!-- Filter tabs: Humanized, clean pill list -->
-        <div class="flex items-center gap-1.5 overflow-x-auto pt-6 scrollbar-none">
+        <div
+          role="tablist"
+          aria-label="Filter tools by category"
+          class="flex items-center gap-1.5 overflow-x-auto pt-6 scrollbar-none">
           <button
             type="button"
+            role="tab"
+            [attr.aria-selected]="selectedCategory() === 'all'"
+            aria-controls="tools-grid"
             (click)="selectedCategory.set('all')"
-            class="px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap"
+            class="px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
             [ngClass]="selectedCategory() === 'all' 
               ? 'bg-surface-900 dark:bg-surface-100 text-white dark:text-surface-950 shadow-xs' 
               : 'text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-surface-200 hover:bg-surface-100 dark:hover:bg-surface-850'">
@@ -69,8 +75,11 @@ import { ToolCategory, ToolDefinition } from '../models/tool.model';
           @for (cat of registry.categories; track cat.id) {
             <button
               type="button"
+              role="tab"
+              [attr.aria-selected]="selectedCategory() === cat.id"
+              aria-controls="tools-grid"
               (click)="selectedCategory.set(cat.id)"
-              class="px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex items-center gap-1.5"
+              class="px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
               [ngClass]="selectedCategory() === cat.id 
                 ? 'bg-surface-900 dark:bg-surface-100 text-white dark:text-surface-950 shadow-xs' 
                 : 'text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-surface-200 hover:bg-surface-100 dark:hover:bg-surface-850'">
@@ -95,7 +104,7 @@ import { ToolCategory, ToolDefinition } from '../models/tool.model';
             @for (tool of registry.favoriteTools().slice(0, 4); track tool.id) {
               <a
                 [routerLink]="tool.route"
-                class="group p-3.5 rounded-xl border border-surface-200 dark:border-surface-800 bg-white dark:bg-surface-900 hover:border-surface-300 dark:hover:border-surface-700 hover:shadow-subtle-dark transition-all flex flex-col justify-between">
+                class="group p-3.5 rounded-xl border border-surface-200 dark:border-surface-800 bg-white dark:bg-surface-900 hover:border-surface-300 dark:hover:border-surface-700 hover:shadow-subtle-dark focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-all flex flex-col justify-between">
                 <div>
                   <div class="flex items-center justify-between mb-2">
                     <div class="w-7 h-7 rounded-lg bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-300 flex items-center justify-center group-hover:text-brand-500 transition-colors">
@@ -119,7 +128,7 @@ import { ToolCategory, ToolDefinition } from '../models/tool.model';
       }
 
       <!-- Main Tools Grid -->
-      <section class="space-y-4">
+      <section id="tools-grid" class="space-y-4" role="region" aria-label="Utilities list">
         <div class="flex items-center justify-between text-xs text-surface-400 font-mono">
           <span>Displaying {{ displayedTools().length }} utilities</span>
           <span class="hidden sm:inline">Engine: WebWorker & Local WebCrypto</span>
@@ -129,7 +138,7 @@ import { ToolCategory, ToolDefinition } from '../models/tool.model';
           @for (tool of displayedTools(); track tool.id) {
             <a
               [routerLink]="tool.route"
-              class="group relative p-4 rounded-xl border border-surface-200/90 dark:border-surface-800 bg-white dark:bg-surface-900/90 hover:border-surface-300 dark:hover:border-surface-700 hover:shadow-subtle-light dark:hover:shadow-subtle-dark transition-all flex flex-col justify-between">
+              class="group relative p-4 rounded-xl border border-surface-200/90 dark:border-surface-800 bg-white dark:bg-surface-900/90 hover:border-surface-300 dark:hover:border-surface-700 hover:shadow-subtle-light dark:hover:shadow-subtle-dark focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-all flex flex-col justify-between">
               
               <div class="space-y-2.5">
                 <div class="flex items-center justify-between">
