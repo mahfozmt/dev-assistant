@@ -15,3 +15,7 @@
 ## 2026-11-04 - Sidebar Category Accordion Accessibility and Focus Rings
 **Learning:** Collapsible category headers in navigation sidebars rendered as `<button>` elements omit crucial assistive attributes (`aria-expanded`, `aria-controls`, and action-oriented `aria-label`/`title`), leaving screen reader users without knowledge of the section's expanded/collapsed state or the controlled panel ID. Furthermore, omitting `focus-visible:ring-2 focus-visible:ring-brand-500` leaves keyboard-only navigators unable to discern focus placement among densely packed menu sections.
 **Action:** Always pair accordion buttons in navigation sidebars with dynamic `aria-expanded`, an explicit `aria-controls` pointing to the collapsible container ID, a descriptive action `aria-label`, and Tailwind `focus-visible` ring styling on both buttons and navigation links.
+
+## 2026-11-05 - Dashboard Category Filter Tabs & Navigation Focus Rings
+**Learning:** Category filter buttons that act like tab selectors must be grouped with `role="tablist"` and communicate selection via `role="tab"` and `[attr.aria-selected]`. Additionally, interactive workstation cards and filter pills frequently lack explicit `focus-visible:ring-2 focus-visible:ring-brand-500` styles, making keyboard navigation through the central dashboard invisible.
+**Action:** Annotate filter strips with `role="tablist"` and `role="tab"` with dynamic `aria-selected` state, and ensure all dashboard interactive cards and buttons provide explicit focus-visible ring styles.
