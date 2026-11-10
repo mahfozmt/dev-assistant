@@ -19,3 +19,7 @@
 ## 2026-11-05 - Dashboard Category Filter Tabs & Navigation Focus Rings
 **Learning:** Category filter buttons that act like tab selectors must be grouped with `role="tablist"` and communicate selection via `role="tab"` and `[attr.aria-selected]`. Additionally, interactive workstation cards and filter pills frequently lack explicit `focus-visible:ring-2 focus-visible:ring-brand-500` styles, making keyboard navigation through the central dashboard invisible.
 **Action:** Annotate filter strips with `role="tablist"` and `role="tab"` with dynamic `aria-selected` state, and ensure all dashboard interactive cards and buttons provide explicit focus-visible ring styles.
+
+## 2026-11-10 - Search Combobox Accessible Active Descendant & Listbox Linking
+**Learning:** Command palette and quick-search modal inputs annotated with `role="combobox"` require explicit `aria-controls` pointing to the results container ID (`role="listbox"`) and `[attr.aria-activedescendant]` referencing the currently focused item's ID. Without this link, assistive screen readers cannot announce the currently highlighted option during arrow key navigation, and omitting `aria-live="polite"` prevents announcements of dynamic search filtering.
+**Action:** Always link combobox inputs to their listbox ID with `aria-controls`, bind `aria-activedescendant` to the highlighted item's unique DOM ID, and make results containers polite live regions with accessible focus states on shortcut items.
