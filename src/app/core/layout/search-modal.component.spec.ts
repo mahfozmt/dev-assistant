@@ -50,9 +50,19 @@ describe('SearchModalComponent', () => {
     expect(input.getAttribute('role')).toBe('combobox');
     expect(input.getAttribute('aria-autocomplete')).toBe('list');
     expect(input.getAttribute('aria-label')).toBe('Search tools and commands');
+    expect(input.getAttribute('aria-controls')).toBe('search-results-listbox');
 
     const listbox = fixture.nativeElement.querySelector('[role="listbox"]');
     expect(listbox).toBeTruthy();
+    expect(listbox.getAttribute('id')).toBe('search-results-listbox');
+    expect(listbox.getAttribute('aria-live')).toBe('polite');
+
+    const activeDescendant = input.getAttribute('aria-activedescendant');
+    expect(activeDescendant).toBeTruthy();
+    const activeOption = fixture.nativeElement.querySelector(`#${activeDescendant}`);
+    expect(activeOption).toBeTruthy();
+    expect(activeOption.getAttribute('role')).toBe('option');
+    expect(activeOption.getAttribute('aria-selected')).toBe('true');
   }));
 
   it('should render accessible clear button when query is entered and clear on click', fakeAsync(() => {
@@ -92,7 +102,10 @@ describe('SearchModalComponent', () => {
     const eventDown = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     component.onKeyDown(eventDown);
     fixture.detectChanges();
-    expect(component.selectedIndex()).toBe((initialIndex + 1) % component.filteredTools.length);
+    const newIndex = (initialIndex + 1) % component.filteredTools.length;
+    expect(component.selectedIndex()).toBe(newIndex);
+    const input = fixture.nativeElement.querySelector('input[type="text"]');
+    expect(input.getAttribute('aria-activedescendant')).toBe('search-result-opt-' + component.filteredTools[newIndex].id);
 
     // Enter to navigate
     const eventEnter = new KeyboardEvent('keydown', { key: 'Enter' });

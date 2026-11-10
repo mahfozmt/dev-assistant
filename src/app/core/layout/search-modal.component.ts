@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject, signal, effect } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -33,6 +33,8 @@ import { ToolDefinition } from '../models/tool.model';
               role="combobox"
               aria-autocomplete="list"
               aria-expanded="true"
+              aria-controls="search-results-listbox"
+              [attr.aria-activedescendant]="activeDescendantId()"
               aria-label="Search tools and commands"
               class="w-full bg-transparent text-surface-900 dark:text-surface-100 placeholder-surface-400 dark:placeholder-surface-500 focus:outline-none text-xs sm:text-sm font-sans"
               placeholder="Type a tool name, command, or shortcut (e.g. 'json', 'jwt', 'poco', 'diff')..."
@@ -54,13 +56,14 @@ import { ToolDefinition } from '../models/tool.model';
           </div>
 
           <!-- Results List -->
-          <div class="overflow-y-auto p-1.5 divide-y divide-transparent" role="listbox">
+          <div id="search-results-listbox" class="overflow-y-auto p-1.5 divide-y divide-transparent" role="listbox" aria-live="polite">
             @if (filteredTools.length > 0) {
               <div class="space-y-0.5">
                 @for (tool of filteredTools; track tool.id; let i = $index) {
                   <button
                     type="button"
                     role="option"
+                    [id]="'search-result-opt-' + tool.id"
                     [attr.aria-selected]="selectedIndex() === i"
                     class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-left transition-colors group focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
                     [ngClass]="selectedIndex() === i 
@@ -122,7 +125,7 @@ import { ToolDefinition } from '../models/tool.model';
                 @for (tool of registry.popularTools(); track tool.id; let i = $index) {
                   <button
                     type="button"
-                    class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left text-surface-600 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors"
+                    class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left text-surface-600 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-800 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none transition-colors"
                     (click)="selectTool(tool)">
                     <div class="flex items-center gap-2.5">
                       <lucide-icon [name]="tool.icon" class="w-3.5 h-3.5 text-surface-400"></lucide-icon>
@@ -165,6 +168,11 @@ export class SearchModalComponent {
   query = '';
   filteredTools: ToolDefinition[] = [];
   selectedIndex = signal<number>(0);
+
+  readonly activeDescendantId = computed(() => {
+    const selected = this.filteredTools[this.selectedIndex()];
+    return selected ? 'search-result-opt-' + selected.id : null;
+  });
 
   constructor() {
     effect(() => {
