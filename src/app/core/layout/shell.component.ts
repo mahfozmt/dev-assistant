@@ -19,7 +19,13 @@ import { ToastContainerComponent } from '../../shared/components/toast-container
   ],
   template: `
     <div class="min-h-screen flex flex-col bg-surface-50 dark:bg-surface-950 text-surface-900 dark:text-surface-100">
-      
+      <!-- Skip to main content link for keyboard & assistive technology navigation -->
+      <a
+        href="#main-content"
+        class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-3.5 focus:py-2 focus:rounded-lg focus:bg-brand-600 focus:text-white focus:text-xs focus:font-semibold focus:shadow-lg focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all">
+        Skip to main content
+      </a>
+
       <div class="flex-1 flex overflow-hidden">
         
         <!-- Desktop Sidebar -->
@@ -57,7 +63,7 @@ import { ToastContainerComponent } from '../../shared/components/toast-container
           </app-header>
 
           <!-- Route Outlet Content -->
-          <main class="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+          <main id="main-content" tabindex="-1" class="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto focus:outline-none">
             <router-outlet></router-outlet>
           </main>
         </div>
