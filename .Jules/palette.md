@@ -23,3 +23,7 @@
 ## 2026-11-10 - Search Combobox Accessible Active Descendant & Listbox Linking
 **Learning:** Command palette and quick-search modal inputs annotated with `role="combobox"` require explicit `aria-controls` pointing to the results container ID (`role="listbox"`) and `[attr.aria-activedescendant]` referencing the currently focused item's ID. Without this link, assistive screen readers cannot announce the currently highlighted option during arrow key navigation, and omitting `aria-live="polite"` prevents announcements of dynamic search filtering.
 **Action:** Always link combobox inputs to their listbox ID with `aria-controls`, bind `aria-activedescendant` to the highlighted item's unique DOM ID, and make results containers polite live regions with accessible focus states on shortcut items.
+
+## 2026-11-11 - Shell Skip to Main Content Keyboard Bypass
+**Learning:** In developer workstations with extensive sidebars and header controls (such as category lists, pinned tools, quick search trigger, and theme toggles), keyboard and screen reader users must tab through dozens of navigation links before reaching the primary tool workspace. Without an upfront skip link and matching target (`<main id="main-content" tabindex="-1">`), bypassing repetitive navigation is impossible.
+**Action:** Position a `sr-only focus:not-sr-only` skip-to-content anchor tag as the first focusable child of the root workstation layout shell, pointing to `<main id="main-content" tabindex="-1">`.
